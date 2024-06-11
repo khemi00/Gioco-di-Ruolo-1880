@@ -23,8 +23,8 @@ const game = new Phaser.Game(config);
 
 function preload() {
     console.log("Preloading assets...");
-    this.load.image('mapEurope', 'assets/mapEurope.png');
-    this.load.image('mapWorld', 'assets/mapWorld.png'); // Carica l'immagine della mappa
+    this.load.image('mapEurope', 'mapEurope.png');
+    this.load.image('mapWorld', 'mapWorld.png'); // Carica l'immagine della mappa
 }
 
 function create() {
