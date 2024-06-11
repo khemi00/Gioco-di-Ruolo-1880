@@ -11,8 +11,13 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Configura LowDB
-const adapter = new JSONFile('db.json');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const adapter = new JSONFile(path.join(__dirname, 'db.json'));
 const db = new Low(adapter);
+
+// Legge il contenuto del database
 await db.read();
 db.data ||= { users: [] };
 
@@ -23,6 +28,10 @@ app.use(express.static('public')); // Serve i file statici nella cartella 'publi
 // Endpoint per registrarsi
 app.post('/register', async (req, res) => {
     const { username, password } = req.body;
+    const existingUser = db.data.users.find(user => user.username === username);
+    if (existingUser) {
+        return res.status(400).send('Username already exists');
+    }
     const hashedPassword = await bcrypt.hash(password, 10);
     db.data.users.push({ username, password: hashedPassword });
     await db.write();
@@ -45,9 +54,6 @@ app.post('/login', async (req, res) => {
 });
 
 // Path per servire index.html
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
