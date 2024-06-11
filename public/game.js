@@ -85,29 +85,51 @@ function create() {
         }
     });
 
-document.getElementById('loginButton').addEventListener('click', async () => {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    try {
-        const response = await fetch('http://localhost:3000/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
-        });
-        const data = await response.json();
-        if (response.ok) {
-            localStorage.setItem('token', data.token);
-            document.getElementById('login-form').style.display = 'none';
-            document.getElementById('menuButton').style.display = 'block';
-            alert('Login successful');
-        } else {
+    document.getElementById('registerButton').addEventListener('click', async () => {
+        const username = document.getElementById('register-username').value;
+        const password = document.getElementById('register-password').value;
+        try {
+            const response = await fetch('http://localhost:3000/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            if (response.ok) {
+                alert('Registration successful');
+            } else {
+                const message = await response.text();
+                alert('Registration failed: ' + message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Registration failed');
+        }
+    });
+    
+    
+    document.getElementById('loginButton').addEventListener('click', async () => {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        try {
+            const response = await fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.setItem('token', data.token);
+                document.getElementById('login-form').style.display = 'none';
+                document.getElementById('menuButton').style.display = 'block';
+                alert('Login successful');
+            } else {
+                alert('Login failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
             alert('Login failed');
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Login failed');
-    }
-});
+    });
   
     // Gestisci il pulsante del menù
     document.getElementById('menuButton').addEventListener('click', () => {
