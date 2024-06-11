@@ -1,12 +1,17 @@
 {
-  "name": "simple-web-app",
+  "name": "auth-app",
   "version": "1.0.0",
-  "description": "A simple web application",
-  "main": "index.js",
+  "description": "A simple web application with authentication",
+  "main": "server.js",
+  "type": "module",
   "scripts": {
-    "start": "http-server -c-1"
+    "start": "node server.js"
   },
   "dependencies": {
-    "http-server": "^0.12.3"
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "lowdb": "^3.0.0"
   }
 }
