@@ -20,10 +20,10 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
+let currentMap;
 
 function preload() {
     console.log("Preloading assets...");
-    // Verifica che i percorsi siano corretti
     this.load.image('mapEurope', 'mapEurope.png');
     this.load.image('mapWorld', 'mapWorld.png');
 }
@@ -31,16 +31,11 @@ function preload() {
 function create() {
     console.log("Creating scene...");
 
-    // Assicurati di utilizzare il nome della risorsa caricata
-    const map = this.add.image(0, 0, 'mapEurope').setOrigin(0, 0); // Usa 'mapEurope' o 'mapWorld' come richiesto
+    // Aggiungi l'immagine della mappa al centro della scena
+    currentMap = this.add.image(0, 0, 'mapEurope').setOrigin(0, 0);
 
     // Ottieni le dimensioni della mappa
-    const mapWidth = map.width;
-    const mapHeight = map.height;
-    console.log("Map dimensions:", mapWidth, mapHeight);
-
-    // Imposta le dimensioni del mondo per adattarsi alla mappa
-    this.cameras.main.setBounds(0, 0, mapWidth, mapHeight);
+    updateMapBounds(currentMap);
 
     // Abilita lo scorrimento della telecamera con i tasti freccia
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -101,6 +96,16 @@ function create() {
             document.getElementById('menuButton').textContent = '☰';
         }
     });
+
+    // Aggiungi logica per cambiare mappa
+    document.getElementById('worldMapButton').addEventListener('click', () => {
+        changeMap('mapWorld');
+    });
+
+    document.getElementById('europeMapButton').addEventListener('click', () => {
+        changeMap('mapEurope');
+    });
+
 }
 
 function update() {
@@ -118,4 +123,19 @@ function update() {
     if (this.cursors.down.isDown) {
         this.cameras.main.scrollY += speed;
     }
+}
+
+function changeMap(mapKey) {
+    console.log("Changing map to", mapKey);
+    currentMap.setTexture(mapKey); // Cambia la texture dell'immagine esistente
+    updateMapBounds(currentMap);
+}
+
+function updateMapBounds(map) {
+    const mapWidth = map.width;
+    const mapHeight = map.height;
+    console.log("Map dimensions:", mapWidth, mapHeight);
+
+    // Imposta le dimensioni del mondo per adattarsi alla mappa
+    game.scene.scenes[0].cameras.main.setBounds(0, 0, mapWidth, mapHeight);
 }
