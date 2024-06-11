@@ -23,15 +23,16 @@ const game = new Phaser.Game(config);
 
 function preload() {
     console.log("Preloading assets...");
+    // Verifica che i percorsi siano corretti
     this.load.image('mapEurope', 'mapEurope.png');
-    this.load.image('mapWorld', 'mapWorld.png'); // Carica l'immagine della mappa
+    this.load.image('mapWorld', 'mapWorld.png');
 }
 
 function create() {
     console.log("Creating scene...");
 
-    // Aggiungi l'immagine della mappa al centro della scena
-    const map = this.add.image(0, 0, 'map').setOrigin(0, 0);
+    // Assicurati di utilizzare il nome della risorsa caricata
+    const map = this.add.image(0, 0, 'mapEurope').setOrigin(0, 0); // Usa 'mapEurope' o 'mapWorld' come richiesto
 
     // Ottieni le dimensioni della mappa
     const mapWidth = map.width;
