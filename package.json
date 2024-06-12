@@ -2,7 +2,7 @@
   "name": "auth-app",
   "version": "1.0.0",
   "description": "A simple web application with authentication",
-  "main": "server.js",
+  "main": "game.js",
   "type": "module",
   "scripts": {
     "start": "node server.js"
